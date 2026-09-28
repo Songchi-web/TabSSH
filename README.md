@@ -1,6 +1,6 @@
 Tab completes names and paths everywhere.
 
-Tabssh is a tiny, Linux-native-style open ssh tool. It speaks ssh itself (via russh) — it does not call the system ssh and links no third-party runtime DLLs.
+Tabssh is a tiny, Linux-native-style open SSH tool for window10/windows11. It speaks ssh itself (via russh) — it does not call the system ssh and links no third-party runtime DLLs.
 
 Keys & commands (the F1 page)
 
