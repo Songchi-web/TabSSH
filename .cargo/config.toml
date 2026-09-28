@@ -1,0 +1,22 @@
+# Build settings that keep the client and agent free of third party runtime
+# dependencies.
+#
+# Windows: statically link the C runtime so no msvcp*/vcruntime* DLLs are
+# needed.  The binary only ever talks to core system DLLs.
+#
+# Linux: the musl targets link with Rust's bundled crt objects and rust-lld,
+# so a static musl binary can be produced from Windows without a C toolchain.
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[target.aarch64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[target.x86_64-unknown-linux-musl]
+linker = "rust-lld"
+rustflags = ["-C", "link-self-contained=yes"]
+
+[target.aarch64-unknown-linux-musl]
+linker = "rust-lld"
+rustflags = ["-C", "link-self-contained=yes"]

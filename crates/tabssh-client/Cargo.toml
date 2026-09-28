@@ -1,0 +1,49 @@
+[package]
+name = "tabssh-client"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Xshell-like SSH client: session manager, terminal and file transfer"
+
+[[bin]]
+name = "tabssh"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+crossterm = "0.28"
+# Blob/SSH decompression is pure-Rust (miniz_oxide); already in the tree via
+# russh, used here to unwrap the embedded agent.
+flate2 = "1"
+ratatui = "0.29"
+vt100 = "0.15"
+# `ring` keeps the build to a C compiler only (no cmake/nasm needed).
+russh = { version = "0.63", default-features = false, features = ["ring", "rsa", "flate2"] }
+russh-sftp = "2.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tabssh-proto = { path = "../tabssh-proto" }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "io-util", "sync", "macros", "time", "fs"] }
+
+[target.'cfg(windows)'.dependencies]
+# Reading the machine's UI language, putting a classic console into UTF-8, and
+# wrapping saved passwords in DPAPI.
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_Globalization",
+    "Win32_Security_Cryptography",
+    "Win32_System_Console",
+    "Win32_System_DataExchange",
+    "Win32_System_Memory",
+] }
+
+[build-dependencies]
+# Compresses the embedded host agent so it costs the client far fewer bytes.
+flate2 = "1"
+
+[features]
+# The headless `--e2e` self-check needs a real host, so it is kept out of the
+# shipped binary.  Build with `--features e2e` to run it.
+default = []
+e2e = []

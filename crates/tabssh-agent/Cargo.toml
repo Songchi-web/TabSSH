@@ -1,0 +1,18 @@
+[package]
+name = "tabssh-agent"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "Stateless host-side helper: discovers and measures GNU screen sessions for the Tabssh client"
+
+[[bin]]
+name = "tabssh-agent"
+path = "src/main.rs"
+
+[dependencies]
+tabssh-proto = { path = "../tabssh-proto" }
+serde_json = "1"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"

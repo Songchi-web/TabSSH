@@ -1,0 +1,4 @@
+// Windows application icon.  Compiled by build.rs with rc.exe (found in the
+// Windows SDK) and linked into tabssh.exe as the program's icon.  Resource id
+// 1 is the lowest group icon, which is the one Explorer shows.
+1 ICON "app.ico"

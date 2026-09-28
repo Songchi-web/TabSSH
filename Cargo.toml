@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tabssh-client",
+    "crates/tabssh-agent",
+    "crates/tabssh-proto",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT"
+authors = ["openssh-tools"]
+description = "A small dependency-free Xshell-like SSH client (Windows)"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# vt100 0.15.2 composes a scrolled view with `rows - offset`, which is
+# intentionally wrapping: once you scroll back past one screen the wrapped
+# value is what lands on the right window of history.  Release builds already
+# wrap, so this only keeps a dev/test build from turning a correct scrollback
+# into an overflow panic.
+[profile.dev.package.vt100]
+overflow-checks = false
+
+[profile.test.package.vt100]
+overflow-checks = false
